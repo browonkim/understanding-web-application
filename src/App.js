@@ -1,12 +1,99 @@
 import './App.css';
 import React from "react";
 
-class EssayForm extends React.Component{
+class CheckBoxForm extends React.Component{
+    constructor(props) {
+        super(props);
+        this.isGoing = "isGoing";
+        this.birthday = "birthday";
+        this.numberOfGuest = "numberOfGuest";
+        this.state = {
+            [this.isGoing] : true,
+            [this.birthday] : true,
+            [this.numberOfGuest] : 1
+        };
+        this.inputChangeHandle = this.inputChangeHandle.bind(this);
+        this.submitHandle = this.submitHandle.bind(this);
+    }
+    inputChangeHandle(event){
+        const target = event.target;
+        const value = (target.type === 'checkbox' ? target.checked : target.value);
+        const name = target.name;
+        this.setState({
+            [name] : value
+        });
+    }
+
+    submitHandle(event){
+
+    }
+
+    render(){
+        return(
+          <form>
+              <label>
+                  Is going:
+                  <input name={this.isGoing} type="checkbox" checked={this.state.isGoing}
+                         onChange={this.inputChangeHandle}/>
+              </label>
+              <br/>
+              <label>
+                  Is Birthday:
+                  <input name={this.birthday} type="checkbox" checked={this.state[this.birthday]}
+                         onChange={this.inputChangeHandle}/>
+              </label>
+              <br/>
+              <label>
+                  Number of guests:
+                  <input
+                      name="numberOfGuest" type="number" value={this.state.numberOfGuest}
+                      onChange={this.inputChangeHandle}/>
+              </label>
+          </form>
+        );
+    }
+}
+
+class SelectForm extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {value: 'CherryCoke'};
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleChange(event){
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event){
+        alert("you selected the " + this.state.value);
+        event.preventDefault();
+    }
+    render(){
+        return(
+          <form onSubmit={this.handleSubmit}>
+              <label>
+                  Pick your favorite flavor:
+                  <select value={this.state.value} onChange={this.handleChange}>
+                      <option value="CherryCoke">CherryCoke</option>
+                      <option value="Lemonade">Lemonade</option>
+                      <option value="MintChocolate">MintChocolate</option>
+                      <option value="Coffee">Coffee</option>
+                      <option value="SourCandy">SourCandy</option>
+                  </select>
+              </label>
+              <input type="submit" value="Select"/>
+          </form>
+        );
+    }
+}
+
+class TextAreaForm extends React.Component{
 
     constructor(props) {
         super(props);
         this.state={
-            value: 'Please write an essay about your favorite Dom Element.'
+            value: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +113,7 @@ class EssayForm extends React.Component{
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Essay:
-                    <textarea value={this.state.value} onChange={this.handleChange}/>
+                    <textarea value={this.state.value} onChange={this.handleChange} placeholder="텍스트 에이리어입니다!"/>
                 </label>
                 <input type="submit" value="send"/>
             </form>
@@ -34,7 +121,7 @@ class EssayForm extends React.Component{
     }
 }
 
-class NameForm extends React.Component{
+class TextForm extends React.Component{
 
     constructor(props) {
         super(props);
@@ -64,7 +151,6 @@ class NameForm extends React.Component{
 
 }
 
-
 function MailBox(props) {
     const unreadMessages = props.unreadMessages;
     /*const listItems = unreadMessages.map((messages, index)=>
@@ -85,7 +171,6 @@ function MailBox(props) {
     );
 }
 
-//component -> function
 function WarningBanner(props) {
     if (!props.warn) {
         // null 을 반환하면
@@ -146,7 +231,6 @@ class ClickHandler extends React.Component {
     }
 }
 
-
 function App() {
     const messages = ['React', 'Re: react', 'Re:Re:React'];
     return (
@@ -161,14 +245,31 @@ function App() {
                 </header>
             </div>
             <div className="container">
-                <main className="App-header">
-                    <NameForm/>
+                <main className="sub-container">
+                    <TextForm/>
                 </main>
+                <aside className="sub-container">
+                    <ul>
+                        {messages.map((m) =>
+                        <li>{m}</li>)}
+                    </ul>
+                </aside>
             </div>
             <div className="container">
-                <aside className="App-header">
-                    <EssayForm/>
+                <aside className="sub-container">
+                    <TextAreaForm/>
                 </aside>
+                <footer className="sub-container">
+                    <SelectForm/>
+                </footer>
+                <main className="sub-container">
+                    <form>
+                        <input type="file"/>
+                    </form>
+                </main>
+                <main className="sub-container">
+                    <CheckBoxForm/>
+                </main>
             </div>
         </div>
     );
