@@ -1,7 +1,7 @@
 import './App.css';
 import React from "react";
 import {CheckBoxForm, SelectForm, TextAreaForm, TextForm} from "./Form.js";
-import {ClickHandler, MailBox, Page} from "./WebComponents";
+import {Calculator, ClickHandler, MailBox, Page} from "./WebComponents";
 
 function App() {
     const messages = ['React', 'Re: react', 'Re:Re:React'];
@@ -26,6 +26,9 @@ function App() {
                         <li>{m}</li>)}
                     </ul>
                 </aside>
+                <footer className="sub-container">
+                    <Calculator/>
+                </footer>
             </div>
             <div className="container">
                 <aside className="sub-container">
@@ -43,6 +46,7 @@ function App() {
                     <CheckBoxForm/>
                 </main>
             </div>
+
         </div>
     );
 }
