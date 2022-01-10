@@ -43,7 +43,7 @@
 ```
 위 HTML 문서를 간단한 DOM Tree로 나타내면 다음과 같습니다.
 
-![DomTree image](src/DomTree.jpg)
+![](src/DomTree.jpg)
 
 DOM 트리는 최상단의 요소인 `html`로 부터 시작되어 HTML 요소의 생성 및 중첩에 따라 가지를 뻗어 나갑니다. 
 > 💡 DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>)
