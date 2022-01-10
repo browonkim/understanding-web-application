@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Learning React
+***
+### Why react?
+리액트를 사용하기 앞서, 어떻게 사용자의 브라우저가 웹 페이지를 렌더링 하는지를 이해할 필요가 있습니다.
+#### Understand DOM
+브라우저는 HTML 문서를 가져오기 위해서(<i>fetch</i>) 웹 서버에 요청(<i>request</i>)을 보냅니다.   
+요청을 받은 서버는 <b>바이너리 스트림</b> 형태로 HTML 페이지를 반환합니다. 기본적으로 이것은 `content-type`헤더가 `text/html; charset=UTF-8`로 설정된 
+텍스트 파일입니다.    
+   
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`text/html`은 <b>MIME TYPE</b>입니다. 이것은 브라우저에게 이 파일이 HTML 문서라는 것을 알려주는 역할을 합니다.   
+`charset=UTF-8`은 이 문서의 인코딩이 UTF-8이라는 것을 브라우저에게 알려줍니다.   
+이러한 정보를 토대로 브라우저는 바이너리 포맷을 읽을 수 있는 텍스트 파일로 변환할 수(<i>convert</i>) 있습니다.
 
-## Available Scripts
+만약 모든 것이 정상이라면, 브라우저는 이 텍스트 파일을 HTML 문서로서 읽기 시작할 것입니다.  
 
-In the project directory, you can run:
+브라우저가 HTML 코드를 읽을 때 `html`, `body`, `div` 등과 같은 HTML 요소(<i>element</i>)를 만날 때 마다 <b>Node</b>라고 불리는 JavaScript 객체를 만들어냅니다.   
+즉, 결과적으로 모든 HTML 요소들은 JavaScript 객체로 변환됩니다.
+모든 HTML 요소들은 서로 다른 속성(<i>properties</i>)를 가지기 때문에, 각 노드 객체들은 서로 다른 클래스(<i>Constructor function</i>)로 만들어 질 것입니다. 
+예를 들어, `div` 요소를 위한 Node 객체는 `Node`클래스를 상속받은 `HTMLDivElement`클래스에서 만들어집니다.   
+   
+브라우저가 HTML 문서로 부터 노드들을 만들어 낸 후, 이러한 노드 객체들에 대해 tree 구조를 생성해냅니다.
+> <i>After the browser has created Nodes from the HTML document, it has to create a tree-like structure of these node objects.</i>
 
-### `npm start`
+아래의 예시처럼 HTML 파일 속의 HTML 요소들은 서로 중첩 되어 있기에 브라우저는 각각에 대해 복제를 해야하지만 그 대신에 기존에 생성된 노드 객체를 사용합니다. 
+이렇게 하면 브라우저가 생명주기 동안 웹 페이지를 더 효율적으로 렌더링하고 관리할 수 있습니다.    
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> HTML Example</title>
+    <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Test HTML!</h1>
+        <p> greetings </p>
+        <script src="./actions.js"></script>
+    </div>
+</body>
+</html>
+```
+위 HTML 문서를 간단한 DOM Tree로 나타내면 다음과 같습니다.  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![](src/DomTree.jpg)
 
-### `npm test`
+> 💡 DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>)
+> , 속성들(<i>attributes</i>), 텍스트(<i>text</i>)과 같은 것들을 별도의 노드로 트리에 저장합니다.   
+>    
+> 그러나 단순함을 위해 HTML 원소를 위한 DOM 노드, 즉 <i>DOM Element</i>들만 고려하도록 하겠습니다. 
+> 모든 DOM 노드 타입들은 <a href="https://www.w3schools.com/jsref/prop_node_nodetype.asp">여기</a>에서 확인할 수 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
