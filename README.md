@@ -11,12 +11,10 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 새로운 프레임워크: Flutter에 대해 이해하기.
 프론트엔드의 문제를 해결하는 접근법 (프레임워크에 독립적인), 일반적인 방법에 대해 이야기하기
 -->
-## Understand Rendering in Browser
+## Understand Render Tree in Browser 
 * [DOM TREE 이해하기](#understand-dom)
 * [CSSOM TREE 이해하기](#css-object-model-cssom)
 * [Render TREE 이해하기](#render-tree)
-* [Render 순서 이해하기]()
-* [브라우저에서 Rendering 하는 과정 이해하기]()
 
 ### Understand DOM
 브라우저는 HTML 문서를 가져오기 위해서(<i>fetch</i>) 웹 서버에 요청(<i>request</i>)을 보냅니다.   
@@ -142,3 +140,48 @@ CSS 속성의 기본값을 선택하는 동안 속성이 <a href="https://www.w3
 
 ### Render Tree
 앞서 우리는 HTML 요소들을 노드로 가지는 DOM Tree와 각 HTML 요소에 대한 Style 속성 집합을 노드로 가지는 CSSOM Tree에 대해 살펴봤습니다.
+
+Render-Tree는 DOM트리와 CSSOM트리를 서로 결합하여 만들어진 트리구조입니다.
+브라우저는 각각의 가시적인 요소들에 대해 <b>layout</b>을 계산할 수 있고 이 레이아웃을 화면에 <b>paint</b>해야합니다.   
+브라우저는 이러한 작업을 하기 위해 Render-Tree를 사용합니다. 
+따라서, Render-Tree가 생성되지 않는 한, 화면에는 아무것도 그려지지 않으며 그렇기에 DOM과 CSSOM트리 모두 필요합니다.
+
+Render-Tree는 궁극적으로 화면에 출력되는 것에 대한 저수준의 표현이므로 픽셀 매트릭스의 어떤 영역도 보유하지 않는 노드는 Render-Tree에 포함되지 않습니다.
+예를 들어, `display: none;`인 요소들은 `0px * 0px`의 차원을 가지며 따라서 Render-Tree에 포함되지 않습니다.
+
+<!-- Todo )Render Tree 이미지 추가하기 -->
+
+위 다이어그램에서 볼 수 있듯이, Render-Tree는 DOM과 CSSOM을 결합시킵니다. 그 결과 화면에 출력될 요소들만 포함하는 트리 구조가 생성됩니다. 
+
+CSSOM에서 `p`요소는 `display: none;`로 스타일이 설정된 `div`안에 있기에 `p`와 `p`의 자식노드는 화면의 어떤 공간도 차지하지 않고 있고 Render-Tree에 나타나지 않습니다.
+   
+하지만 `visibility: hidden`이나 `opacity: 0`인 요소들은 화면의 공간을 점유하고 있기에 Render-Tree안에 존재하게 됩니다. 
+
+DOM 트리안의 DOM 요소들에 대해 접근할 수 있게 하는 DOM API와 달리, CSSOM은 사용자로 부터 숨겨지고 은닉되어있습니다. 
+하지만 브라우저가 Render-Tree를 생성하기위해 DOM과 CSSOM을 결합하기 때문에, 브라우저는 DOM요소 자체에 대한 고수준의 API를 제공하여 각 DOM 요소에 대한 CSSOM 노드를 노출시킵니다.
+> <i>But since the browser combines DOM and CSSOM to from the Render Tree, the browser exposes the CSSOM node of a DOM element by providing high-level API on the DOM element itself.</i>
+
+이것은 개발자가 CSSOM노드의 CSS 프로퍼티에 접근하거나 변경할 수 있게 해줍니다.
+
+> 💡 CSSOM API에 대해 광범위한 스펙트럼을 다루는 [CSS Tricks Article](https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/) 에서 JavaScript로 element의 style을 조작하는 방법을 살펴볼 수 있습니다.    
+> 또한 element의 스타일을 조작하는 더 적절한, 정확한 방법인 JavaScript의 [CSS Typed Object API](https://developers.google.com/web/updates/2018/03/cssom) 를 새롭게 살펴볼 수 있습니다.
+
+## Understand Rendering Sequence
+이제 우리는 DOM, CSSOM, Render-Tree에 대해 확실한 개념들을 잡았습니다. 
+이제부터는 브라우저가 어떻게 이러한 것들을 사용해서 일반적인 웹페이지들을 렌더링하는지 알아봅시다.
+이 과정에 대해 깊게 이해하지 않으면 웹 개발에 있어 치명적일 수 있습니다. 
+왜냐하면 이러한 개념과 과정들이 UX(사용자 경험)을 극대화 시키고 최적의 성능을 가지는 웹사이트를 디자인 할 수 있게 해주기 때문입니다.
+
+
+웹 페이지가 로드될 때, 브라우저는 먼저 HTML 텍스트를 읽고 이것으로 부터 DOM Tree를 생성해냅니다. 
+그리고 inline, embedded, external CSS로 부터 CSS를 처리해서 CSSOM Tree를 생성해냅니다. 
+
+이것들이 생성되고 나면, 이 두 트리를 통해 Render-Tree를 생성해냅니다. Render-Tree가 생성되고 나면 브라우저는 각 독립적인 요소(element)들을 화면에 그리기 시작합니다. (출력하기 시작합니다.)
+
+### Layout operation
+
+### Paint operation
+
+### Compositing operation
+
+
