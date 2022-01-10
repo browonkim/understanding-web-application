@@ -1,8 +1,9 @@
 # Learning React
-***
-### Why react?
+   
+   
+## Why react?
 리액트를 사용하기 앞서, 어떻게 사용자의 브라우저가 웹 페이지를 렌더링 하는지를 이해할 필요가 있습니다.
-#### Understand DOM
+### Understand DOM
 브라우저는 HTML 문서를 가져오기 위해서(<i>fetch</i>) 웹 서버에 요청(<i>request</i>)을 보냅니다.   
 요청을 받은 서버는 <b>바이너리 스트림</b> 형태로 HTML 페이지를 반환합니다. 기본적으로 이것은 `content-type`헤더가 `text/html; charset=UTF-8`로 설정된 
 텍스트 파일입니다.    
@@ -40,14 +41,26 @@
 </body>
 </html>
 ```
-위 HTML 문서를 간단한 DOM Tree로 나타내면 다음과 같습니다.  
+위 HTML 문서를 간단한 DOM Tree로 나타내면 다음과 같습니다.
 
+![DomTree image](src/DomTree.jpg)
 
-![](src/DomTree.jpg)
-
+DOM 트리는 최상단의 요소인 `html`로 부터 시작되어 HTML 요소의 생성 및 중첩에 따라 가지를 뻗어 나갑니다. 
 > 💡 DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>)
 > , 속성들(<i>attributes</i>), 텍스트(<i>text</i>)과 같은 것들을 별도의 노드로 트리에 저장합니다.   
 >    
 > 그러나 단순함을 위해 HTML 원소를 위한 DOM 노드, 즉 <i>DOM Element</i>들만 고려하도록 하겠습니다. 
 > 모든 DOM 노드 타입들은 <a href="https://www.w3schools.com/jsref/prop_node_nodetype.asp">여기</a>에서 확인할 수 있습니다.
 
+Google Chrome DevTools Console을 통해 DOM 트리를 시각화할 수 있습니다. 이 도구는 DOM 요소들의 계층 구조를 각 DOM 요소의 프로퍼티와 함께 보여줍니다.
+   
+자바스크립트는 DOM이 무엇인지 이해하지 못합니다. <ins><b>DOM은 자바스크립트의 명세가 아닙니다.</b></ins>
+> <i>DOM is not part of the JavaScript specification.</i>
+
+DOM은 브라우저가 제공하는 고수준의 Web API입니다. DOM을 통해 웹페이지를 효율적으로 렌더링할 수 있으며, 개발자는 다양한 목적을 위해 공개적으로 노출된 DOM 요소를 동적으로 조작할 수 있습니다.
+
+> 💡 DOM API를 사용하면 개발자는 HTML 요소들을 추가하거나 삭제할 수 있고 이것의 모습을 바꾸거나 이벤트 핸들러에 바인딩할 수 있습니다. 
+> DOM API를 사용하면 렌더링된 DOM 트리에 영향을 주지않고 HTML 요소를 생성하거나 메모리에서 복제하고 조작할 수 있습니다. 개발자는 이것을 통해 풍부한 UX(사용자 경험)를 제공하는 매우 동적인 웹 페이지를 제작할 수 있습니다.
+
+### CSS Object Model (CSSOM)
+웹 디자인을 하는 의도가 무엇일까요? 최대한 보기 좋은 웹사이트를 만들기 위해서입니다. 우리는 HTML 요소에 몇가지 스타일을 넣어 그것을 실현합니다. 
