@@ -140,5 +140,5 @@ CSS 속성의 기본값을 선택하는 동안 속성이 <a href="https://www.w3
 다이어그램에서 볼 수 있듯이, 우리의 CSSOM 트리는 화면에 표시되지 않을 `<link>`, `<title>`, `<script>`와 같은 요소들은 포함하고 있지 않습니다. 
 빨간색으로 표시된 CSS 프로퍼티 값은 위에서 cascade된 값이며 회색으로 표시된 값은 상속받은 값을 재정의(override)한 것입니다.
 
-###Render Tree
+### Render Tree
 앞서 우리는 HTML 요소들을 노드로 가지는 DOM Tree와 각 HTML 요소에 대한 Style 속성 집합을 노드로 가지는 CSSOM Tree에 대해 살펴봤습니다.
