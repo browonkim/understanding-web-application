@@ -176,11 +176,60 @@ DOM 트리안의 DOM 요소들에 대해 접근할 수 있게 하는 DOM API와 
 웹 페이지가 로드될 때, 브라우저는 먼저 HTML 텍스트를 읽고 이것으로 부터 DOM Tree를 생성해냅니다. 
 그리고 inline, embedded, external CSS로 부터 CSS를 처리해서 CSSOM Tree를 생성해냅니다. 
 
-이것들이 생성되고 나면, 이 두 트리를 통해 Render-Tree를 생성해냅니다. Render-Tree가 생성되고 나면 브라우저는 각 독립적인 요소(element)들을 화면에 그리기 시작합니다. (출력하기 시작합니다.)
+이것들이 생성되고 나면, 이 두 트리를 통해 Render-Tree를 생성해냅니다. 
+Render-Tree가 생성되고 나면 브라우저는 각 독립적인 요소(element)들을 화면에 그리기 시작합니다. (출력하기 시작합니다.)
 
 ### Layout operation
+제일 먼저, 브라우저는 각각의 독립적인 Render-Tree의 노드에 대한 레이아웃을 생성합니다.
+이 레이아웃은 노드의 픽셀 단위의 <b>크기</b>와 화면에 출력될 <b>위치</b>로 구성됩니다.
+이렇게 각 노드의 레이아웃 정보를 계산하는 과정, 다시 말해 노드의 위치와 크기를 계산하는 과정을 <b>layout</b>이라고 부릅니다.
+<b>layout</b> 과정은 <b>reflow</b>, <b>browser reflow</b>라고도 부릅니다.    
+> By Paul Lewis.   
+> 레이아웃은 브라우저가 요소의 기하학적 정보(페이지에서 차지하는 크기 및 위치)를 파악하는 장소입니다. 각 요소는 사용한 CSS, 요소의 콘텐츠 또는 상위 요소에 따라 명시적 또는 암시적 크기 지정 정보를 갖게 됩니다. 이 프로세스는 Chrome, Opera, Safari 및 Internet Explorer에서 레이아웃이라고 합니다. Firefox에서는 리플로우(reflow)라고 하지만 실제로는 동일한 프로세스입니다.
+이 과정은 스크롤을 할 때나, 윈도우의 크기를 재조정할때나, DOM 요소들을 조작할 때도 발생할 수 있습니다. 
+> 
+다음은 <b>layout/reflow</b>를 유발하는 이벤트 목록 입니다.
 
+* insert, remove or update an element in the DOM
+* modify content on the page, e.g. the text in an input box
+* move a DOM element
+* animate a DOM element
+* take measurements of an element such as offsetHeight or getComputedStyle
+* change a CSS style
+* change the className of an element
+* add or remove a stylesheet
+* resize the window
+* scroll
+* changing the font
+* activation of css pseudo classes such as :hover
+* setting a property of the style attribute
+
+<b>layout/reflow</b>은 비싼 작업입니다. 따라서 대수롭지 않은 이유로 웹페이지에 layout 연산을 여러번 하는 것을 피해야합니다.
+Paul Lewis가 작성한 <a href="https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83_%EC%8A%A4%EB%9E%98%EC%8B%B1_%ED%94%BC%ED%95%98%EA%B8%B0">article</a>은 <i>layout thrashing</i>을 포함하여 복잡하고 비싼 layout 연산을 피하는 방법에 대해 설명하고 있습니다. 
 ### Paint operation
+여기까지 우리는 화면에 출력해야하는 기하학적 요소들에 대한 리스트를 얻었습니다. 
+render-tree의 요소들(혹은 sub-tree)는 서로 겹쳐질 수 있으며, 모습이나 위치, 혹은 기하학적 요소들을 자주 변경하는(애니메이션과 같은) CSS 프로퍼티를 가지고 있을수도 있습니다.
+따라서 브라우저는 이것에 대한 <b>layer</b>를 생성합니다. 
+
+레이어를 생성함으로써 브라우저는 스크롤이나 리사이즈 등과 같은 웹페이지의 생명주기 전반에 걸쳐 효율적인 painting(그리기) 연산을 수행할 수 있습니다.
+또한 레이어를 통해 브라우저는 (<i>z-axis</i>를 따라) 올바른 순서로 요소들을 쌓으면서 그릴 수 있습니다.
+> <i> Creating layers helps the browser efficiently perform painting operations throughout the lifecycle of a web page such as while scrolling or resizing the browser window. Having layers also help the browser correctly draw elements in the stacking order (along the z-axis) as they were intended by the developer. </i>
+>
+이제부터는 레이어들을 결합하여 화면에 출력할 것입니다. 하지만 브라우저는 모든 레이어를 한 번에 그리지는 않습니다.    
+우선 레이어들은 개별적으로 그려집니다.
+
+브라우저는 각 레이어 내에서 테두리, 배경색, 그림자, 텍스트 등과 같이 요소에 표시되는 속성에 대해 해당 픽셀을 채웁니다.
+이 과정을 <b>rasterize</b>이라고도 합니다. (<b>draw/rasterize</b>)   
+성능을 향상시키기 위해 브라우저는 다른 스레드들에서 rasterize를 수행합니다. 
+
+Photoshop의 layer 개념은 브라우저의 렌더링 방식에도 적용될 수 있습니다. 
+
+
+Google DevTools에서 웹페이지의 서로 다른 레이어들을 시각화 할 수 있습니다. 
+DevTools의 레이어 항목을 선택하면 각 요소들의 레이어를 화면에서 확인할 수 있습니다.
+
+![div](BrowserLayer_container_div.JPG)
+![p](BrowserLayer_component.JPG)
 
 ### Compositing operation
 
