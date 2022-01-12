@@ -110,8 +110,8 @@ body {
     display: none;
 }
 ```
-DOM을 생성한 후 브라우저는 외부, 내장형, 인라인, user-agent 등 모든 소스에서 CSS를 읽고 <ins><b><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model">CSSOM</a></b></ins>을 생성합니다.
-CSSOM(CSS Object Model)도 DOM과 같이 Tree 구조입니다. 
+DOM을 생성한 후 브라우저는 _외부_, _내장형_, _인라인_, _user-agent_ 등 모든 소스에서 CSS를 읽고 <ins><b><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model">CSSOM</a></b></ins>을 생성합니다.
+CSS Object Model(CSSOM) 도 DOM과 같은 Tree 구조입니다. 
 
 CSSOM 트리의 각 노드는 CSS 스타일 정보를 가지고 있습니다. 이 스타일 정보들은 selector(지시자)에 의해 명시된 타겟 DOM 요소에 적용될 것입니다.
 단, CSSOM은 `<meta>`, `<script>`, `<title>`등과 같이 화면에 출력되지 않을 DOM 요소에 대한것은 포함하고 있지 않습니다. 
@@ -214,10 +214,11 @@ render-tree의 요소들(혹은 sub-tree)는 서로 겹쳐질 수 있으며, 모
 또한 레이어를 통해 브라우저는 (<i>z-axis</i>를 따라) 올바른 순서로 요소들을 쌓으면서 그릴 수 있습니다.
 > _Creating layers helps the browser efficiently perform painting operations throughout the lifecycle of a web page such as while scrolling or resizing the browser window. Having layers also help the browser correctly draw elements in the stacking order (along the z-axis) as they were intended by the developer._
 > 
-이제부터는 레이어들을 결합하여 화면에 출력할 것입니다. 하지만 브라우저는 모든 레이어를 한 번에 그리지는 않습니다.    
-우선 레이어들은 개별적으로 그려집니다.
+앞서 언급한 과정을 통해 이제 우리는 레이어들을 가지게 되었습니다. 
+이 레이어들을 결합하여 화면에 그릴 수 있습니다.
+하지만 브라우저는 모든 레이어를 한 번에 그리지는 않습니다. 우선 레이어들은 개별적으로 그려집니다.
 
-브라우저는 각 레이어 내에서 테두리, 배경색, 그림자, 텍스트 등과 같이 요소에 표시되는 속성에 대해 해당 픽셀을 채웁니다.
+브라우저는 <ins>각 레이어 내</ins>에서 요소에 표시되는 속성(테두리, 배경색, 그림자, 텍스트 등)에 대해 해당 픽셀을 채웁니다.
 이 과정을 <b>rasterize</b>이라고도 합니다. (<b>draw/rasterize</b>)   
 성능을 향상시키기 위해 브라우저는 다른 스레드들에서 rasterize를 수행합니다. 
 
@@ -229,6 +230,17 @@ DevTools의 레이어 항목을 선택하면 각 요소들의 레이어를 화�
 
 ![div](BrowserLayer_container_div.JPG)
 ![p](BrowserLayer_component.JPG)
+
+또한 DevTools의 렌더링 패널에서 레이어의 경계선을 시각화 할 수 있으며 각종 렌더링 상태, 속성들을 볼 수 있습니다. 
+
+![rendering](Rendering_devtools.JPG)
+
+> 💡 _rasterize는 일반적으로 CPU에서 수행되므로 느리며 비용이 많이 드는 연산입니다. 
+> 이제 성능 향상을 위해 rasterize를 GPU에서 수행하는 새로운 기술들이 있습니다._   
+> 
+> _인텔의 해당 <a>기사</a>는 **painting 주제**에 대해 더 자세하게 다루고 있으며 꼭 읽기를 권장합니다.   
+> **layer에 대한 개념**을 더 자세하게 이해하기 위해 이 <a>기사</a>를 반드시 읽어야합니다._
+
 
 ### Compositing operation
 
