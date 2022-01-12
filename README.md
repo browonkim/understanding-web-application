@@ -11,6 +11,10 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 새로운 프레임워크: Flutter에 대해 이해하기.
 프론트엔드의 문제를 해결하는 접근법 (프레임워크에 독립적인), 일반적인 방법에 대해 이야기하기
 -->
+# Understand Rendering
+아래의 문서는 Uday Hiwarale 의 <i><b><ins><a href="">How the browser renders a web page? - DOM, CSSOM, and rendering</a></ins></b></i>을 번역한 글입니다. 
+
+이 글은 <ins>**DOM**</ins>, <ins>**CSSOM**</ins>, <ins>**Render-Tree**</ins> 에 대한 기초적인 이해와 <ins>**layer**</ins>, <ins>**draw**</ins>, <ins>**composite**</ins> 과정에 대해 소개하고 있습니다. 
 ## Understand Render Tree in Browser 
 * [DOM TREE 이해하기](#understand-dom)
 * [CSSOM TREE 이해하기](#css-object-model-cssom)
@@ -47,8 +51,8 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 </head>
 <body>
     <div class="container">
-        <h1>Test HTML!</h1>
-        <p> greetings </p>
+        <h1>Hello World</h1>
+        <p>I am a card</p>
         <script src="./actions.js"></script>
     </div>
 </body>
@@ -56,7 +60,7 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 ```
 위 HTML 문서를 간단한 DOM Tree로 나타내면 다음과 같습니다.
 
-![](src/DomTree.jpg)
+![](browser-rendering-test/lib/dom.png)
 
 DOM 트리는 최상단의 요소인 `html`로 부터 시작되어 HTML 요소의 생성 및 중첩에 따라 가지를 뻗어 나갑니다. 
 > 💡 _DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>), 속성들(<i>attributes</i>), 텍스트(<i>text</i>)과 같은 것들을 별도의 노드로 트리에 저장합니다._
@@ -132,7 +136,7 @@ CSS 속성의 기본값을 선택하는 동안 속성이 <a href="https://www.w3
 > 왼쪽 패널에서 아무 HTML 요소를 선택한 후 오른쪽 패널의 computed 탭을 클릭하면 됩니다. </i>
 
 앞서 보여준 CSS 예제의 CSSOM 트리를 아래의 다이어그램으로 시각화 할 수 있습니다. 간단하게 이해하기 위해, user-agent 스타일은 무시하고 예제의 CSS style에만 집중하겠습니다.
-[이미지 추가]()
+![CSSOM](browser-rendering-test/lib/cssom.png)
 <!-- # TODO ) 이미지 추가하기 -->
 다이어그램에서 볼 수 있듯이, 우리의 CSSOM 트리는 화면에 표시되지 않을 `<link>`, `<title>`, `<script>`와 같은 요소들은 포함하고 있지 않습니다. 
 빨간색으로 표시된 CSS 프로퍼티 값은 위에서 cascade된 값이며 회색으로 표시된 값은 상속받은 값을 재정의(override)한 것입니다.
@@ -149,6 +153,7 @@ Render-Tree는 궁극적으로 화면에 출력되는 것에 대한 저수준의
 예를 들어, `display: none;`인 요소들은 `0px * 0px`의 차원을 가지며 따라서 Render-Tree에 포함되지 않습니다.
 
 <!-- Todo )Render Tree 이미지 추가하기 -->
+![Render-Tree](browser-rendering-test/lib/render-tree.png)
 
 위 다이어그램에서 볼 수 있듯이, Render-Tree는 DOM과 CSSOM을 결합시킵니다. 그 결과 화면에 출력될 요소들만 포함하는 트리 구조가 생성됩니다. 
 
@@ -156,7 +161,8 @@ CSSOM에서 `p`요소는 `display: none;`로 스타일이 설정된 `div`안에 
    
 하지만 `visibility: hidden`이나 `opacity: 0`인 요소들은 화면의 공간을 점유하고 있기에 Render-Tree안에 존재하게 됩니다. 
 
-DOM 트리안의 DOM 요소들에 대해 접근할 수 있게 하는 DOM API와 달리, CSSOM은 사용자로 부터 숨겨지고 은닉되어있습니다. 
+DOM 트리 안의 DOM 요소들에 대해 접근할 수 있게 하는 DOM API와 달리, CSSOM은 사용자로 부터 숨겨지고 은닉되어있습니다. 
+
 하지만 브라우저가 Render-Tree를 생성하기위해 DOM과 CSSOM을 결합하기 때문에, 브라우저는 DOM요소 자체에 대한 고수준의 API를 제공하여 각 DOM 요소에 대한 CSSOM 노드를 노출시킵니다.
 > <i>But since the browser combines DOM and CSSOM to from the Render Tree, the browser exposes the CSSOM node of a DOM element by providing high-level API on the DOM element itself.</i>
 
@@ -259,7 +265,74 @@ Chrome DevTool 렌더링 패널에서 이렇게 분할된 타일들을 시각화
 > _Reflow는 페이지의 부분 혹은 전체 레이아웃에 영향을 주는 변화가 있을 때, 해당 레이아웃을 다시 만드는 작업입니다._   
 > _예를 들어, 페이지 요소들을 추가하거나 제거할 때, 명시적 혹은 암시적으로 `width`, `height`, `font-family`, `font-size` 등이 변경되었을 때가 reflow가 발생합니다._   
 > 
-> _많은 경우 reflow가 발생하면 repaint가 이어 발생합니다._
+> _많은 경우 reflow가 발생한 후 repaint가 이어져 발생합니다._
 > 
 
+***
+여기까지의 정보들 통해, 브라우저가 웹 페이지에서 진행하는 이벤트들의 시퀀스를 구성할 수 있습니다.    
 
+이 이벤트의 시퀀스를 통해 브라우저는 HTML 나 CSS와 같이 간단한 텍스트 컨텐츠의 요소들을 화면에 렌더링할 수 있습니다. 
+
+![critical rendering path](browser-rendering-test/lib/crp.png)
+
+이 시퀀스를 <ins><b><a href="https://developer.mozilla.org/en-US/docs/Web/Performance/Critical_rendering_path">critical rendering path</a></b></ins>라고 부릅니다. 
+
+### Browser engines
+DOM 트리, CSSOM 트리를 생성하고 렌더링 로직을 처리하는 작업은 브라우저 엔진이 수행합니다.   
+
+이 엔진은 브라우저에 포함된 소프트웨어의 조각입니다. 브라우저 엔진은 렌더링 엔진이나 레이아웃 엔진이라고도 불립니다.    
+
+이 브라우저 엔진은 HTML 코드로 부터 화면 위 실제 픽셀로 웹 페이지를 렌더링하기 위해 필요한 모든 요소와 로직들을 포함하고 있습니다. 
+
+사람들이 <b><ins>WebKit</ins></b>에 대해 이야기하는 것을 들어보셨다면, 그들은 브라우저 엔진에 대해 이야기하고 있었던 것입니다. 
+
+<b>WebKit</b>은 Apple의 Safari 브라우저에서 사용되고있으며, 예전에 Google Chrome 브라우저의 기본 렌더링 엔진으로 사용됐었습니다.
+현재 <b><ins>Chromium</ins></b> 프로젝트는 <b><ins>Blink</ins></b>를 기본 렌더링 엔진으로 사용하고 있습니다. 
+
+<b>Blink</b>는 <b>Webkit</b>에서 fork 되어 나온 프로젝트입니다.
+다음은 많이 사용되는 브라우저들에서 사용되는 브라우저 엔진들을 정리한 리스트입니다. 
+
+* IE
+  * Engine: Trident
+  * CSS-prefix: `-ms`
+* Edge
+  * Engine: ~~EdgeHTML~~ → Blink
+  * CSS-prefix: `-ms`
+* Firefox
+  * Engine: Gecko
+  * CSS-prefix: `-moz`
+* Opera
+  * Engine: ~~Presto~~ → Blink
+  * CSS-prefix: `-o` (Presto) and `-webkit` (Blink)
+* Safari
+  * Engine: WebKit
+  * CSS-prefix: `-webkit`
+* Chrome
+  * Engine: ~~WebKit~~ → Blink
+  * CSS-prefix: `-webkit`
+
+## Rendering Process in Browsers
+JavaScript 언어는 <a href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> 표준에 의해 표준화되었습니다. 
+<!--JavaScript 는 상표권 등록이 되어 있기 때문에, 상업적인 상황에서 ECMAScript 로 부르는 것이 권장됩니다.-->
+그러므로 <b><ins><a href="https://v8.dev/">V8</a></ins></b>, <b><ins><a href="https://en.wikipedia.org/wiki/Chakra_(JavaScript_engine)">Chakra</a></ins></b>, <b><ins><a href="https://spidermonkey.dev/">Spider Monkey</a></ins></b>와 같은 모든 JavaScript 엔진 제공자는 해당 표준을 따라야합니다. 
+
+JavaScript 표준의 제정은 JavaScript 코드가 브라우저, Node, Deno 등과 같은 모든 JavaScript 런타임에서 일관된 행동을 하게 해주었습니다.
+이는 여러 플랫폼에서 JavaScript 및 웹 애플리케이션을 일관되고 완벽하게 개발할 수 있도록 만들어줍니다. 
+
+하지만 브라우저가 렌더링하는 방식은 그렇지 않습니다. 
+
+HTML, CSS, 자바스크립트, 이 세 언어들은 몇몇 집단과 조직에서 표준화되었습니다.
+하지만 화면 렌더링을 하기 위해 브라우저가 <b>HTML/CSS/JS</b>를 통합하여 관리하는 방법은 표준화 되지 않았습니다.
+
+즉, Google Chrome의 브라우저 엔진의 동작과 Safari의 브라우저 엔진의 동작은 다를 수 있습니다.
+
+그러므로, 특정 브라우저에서의 렌더링 시퀀스와 그 이면의 메커니즘을 예측하는 것은 어렵습니다.   
+
+<ins><b><a href="https://html.spec.whatwg.org/">HTML5 specification</a></b></ins>은 렌더링 작동 방식을 이론적으로 표준화하려고 노력했지만 브라우저가 이 표준을 준수하느냐는 전적으로 브라우저(개발자)들에게 달려있습니다. 
+
+이러한 비일관성에도 불구하고, 모든 브라우저에서 일반적으로 동일한 몇몇 공통적인 원리가 있습니다.
+브라우저가 화면에 렌더링하기 위해 사용하는 일반적인 접근법과 이 프로세스의 생명주기 이벤트에 대해 알아봅시다. 
+
+이러한 프로세스를 이해하기 위해 서로 다른 렌더링 시나리오를 테스트하는 작은 [프로젝트](browser-rendering-test)를 준비했습니다.
+
+## Parsing and External Resources

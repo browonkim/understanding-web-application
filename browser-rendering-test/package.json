@@ -1,0 +1,9 @@
+{
+  "name": "browser-rendering-test",
+  "version": "1.0.0",
+  "description": "Sample code base to test how a browser renders a webpage.",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
