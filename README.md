@@ -40,7 +40,7 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 이렇게 하면 브라우저가 생명주기 동안 웹 페이지를 더 효율적으로 렌더링하고 관리할 수 있습니다.    
 ```html
 <!DOCTYPE HTML>
-<html>
+<html lang="ko">
 <head>
     <title> HTML Example</title>
     <link rel="stylesheet" href="./style.css"/>
@@ -97,7 +97,7 @@ html {
 body {
     font-size: 10px;
 }
-.container{
+.container {
     width: 300px;
     height: 300px;
     color: black;
@@ -243,5 +243,23 @@ DevTools의 레이어 항목을 선택하면 각 요소들의 레이어를 화�
 
 
 ### Compositing operation
+아직까지 우리는 화면에 단 하나의 픽셀도 그리지 않았습니다. 
+우리가 지금까지 얻어 낸 것은 특정 순서로 화면에 그려져야 하는 개별 레이어 (_bitmap images_) 들입니다.
+Composite(합성) 연산에서 이 레이어들은 최종적으로 화면에 그려지기 위해 GPU로 보내집니다.
+
+그리기(draw)를 위해 전체 레이어를 보내는 것은 비효율적입니다. 
+reflow(layout)이나 <a href="http://www.stubbornella.org/content/2009/03/27/reflows-repaints-css-performance-making-your-javascript-slow/">repaint</a> 할 때 마다 다시 전체 레이어가 보내질 것이기 때문입니다. 
+따라서 레이어는 타일들로 분할되어 화면에 그려집니다. 
+
+Chrome DevTool 렌더링 패널에서 이렇게 분할된 타일들을 시각화 할 수 있습니다. 
+
+> _Repaint는 시각적으로는 변하지만 레이아웃에는 영향을 주지 않는 요소의 skin 이 변했을 때 발생합니다._   
+> _예를 들면, `outline`, `visibility`, `background`, `color` 같은 프로퍼티들의 변화가 있습니다._
+> 
+> _Reflow는 페이지의 부분 혹은 전체 레이아웃에 영향을 주는 변화가 있을 때, 해당 레이아웃을 다시 만드는 작업입니다._   
+> _예를 들어, 페이지 요소들을 추가하거나 제거할 때, 명시적 혹은 암시적으로 `width`, `height`, `font-family`, `font-size` 등이 변경되었을 때가 reflow가 발생합니다._   
+> 
+> _많은 경우 reflow가 발생하면 repaint가 이어 발생합니다._
+> 
 
 
