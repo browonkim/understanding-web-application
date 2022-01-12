@@ -286,8 +286,8 @@ DOM 트리, CSSOM 트리를 생성하고 렌더링 로직을 처리하는 작업
 
 사람들이 <b><ins>WebKit</ins></b>에 대해 이야기하는 것을 들어보셨다면, 그들은 브라우저 엔진에 대해 이야기하고 있었던 것입니다. 
 
-<b>WebKit</b>은 Apple의 Safari 브라우저에서 사용되고있으며, 예전에 Google Chrome 브라우저의 기본 렌더링 엔진으로 사용됐었습니다.
-현재 <b><ins>Chromium</ins></b> 프로젝트는 <b><ins>Blink</ins></b>를 기본 렌더링 엔진으로 사용하고 있습니다. 
+<b><ins><a href="https://webkit.org/">WebKit</a></ins></b>은 Apple의 Safari 브라우저에서 사용되고있으며, 예전에 Google Chrome 브라우저의 기본 렌더링 엔진으로 사용됐었습니다.
+현재 <b><ins><a href="https://www.chromium.org/">Chromium</a></ins></b> 프로젝트는 <b><ins><a href="https://www.chromium.org/blink">Blink</a></ins></b>를 기본 렌더링 엔진으로 사용하고 있습니다. 
 
 <b>Blink</b>는 <b>Webkit</b>에서 fork 되어 나온 프로젝트입니다.
 다음은 많이 사용되는 브라우저들에서 사용되는 브라우저 엔진들을 정리한 리스트입니다. 
