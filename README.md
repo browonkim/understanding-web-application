@@ -59,11 +59,10 @@ Vue.js 와 Angular에 대해 간단하게 비교-정리하기
 ![](src/DomTree.jpg)
 
 DOM 트리는 최상단의 요소인 `html`로 부터 시작되어 HTML 요소의 생성 및 중첩에 따라 가지를 뻗어 나갑니다. 
-> 💡 DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>)
-> , 속성들(<i>attributes</i>), 텍스트(<i>text</i>)과 같은 것들을 별도의 노드로 트리에 저장합니다.   
+> 💡 _DOM Node는 HTML 원소가 아닐 수도 있습니다. 브라우저가 DOM 트리를 생성할 때, 주석(<i>comments</i>), 속성들(<i>attributes</i>), 텍스트(<i>text</i>)과 같은 것들을 별도의 노드로 트리에 저장합니다._
 >    
-> 그러나 단순함을 위해 HTML 원소를 위한 DOM 노드, 즉 <i>DOM Element</i>들만 고려하도록 하겠습니다. 
-> 모든 DOM 노드 타입들은 <a href="https://www.w3schools.com/jsref/prop_node_nodetype.asp">여기</a>에서 확인할 수 있습니다.
+> _그러나 단순함을 위해 HTML 원소를 위한 DOM 노드, 즉 <i>DOM Element</i>들만 고려하도록 하겠습니다. 
+> 모든 DOM 노드 타입들은 <a href="https://www.w3schools.com/jsref/prop_node_nodetype.asp">여기</a>에서 확인할 수 있습니다._
 
 Google Chrome DevTools Console을 통해 DOM 트리를 시각화할 수 있습니다. 이 도구는 DOM 요소들의 계층 구조를 각 DOM 요소의 프로퍼티와 함께 보여줍니다.
    
@@ -72,8 +71,8 @@ Google Chrome DevTools Console을 통해 DOM 트리를 시각화할 수 있습�
 
 DOM은 브라우저가 제공하는 고수준의 Web API입니다. DOM을 통해 웹페이지를 효율적으로 렌더링할 수 있으며, 개발자는 다양한 목적을 위해 공개적으로 노출된 DOM 요소를 동적으로 조작할 수 있습니다.
 
-> 💡 DOM API를 사용하면 개발자는 HTML 요소들을 추가하거나 삭제할 수 있고 이것의 모습을 바꾸거나 이벤트 핸들러에 바인딩할 수 있습니다. 
-> DOM API를 사용하면 렌더링된 DOM 트리에 영향을 주지않고 HTML 요소를 생성하거나 메모리에서 복제하고 조작할 수 있습니다. 개발자는 이것을 통해 풍부한 UX(사용자 경험)를 제공하는 매우 동적인 웹 페이지를 제작할 수 있습니다.
+> 💡 _DOM API를 사용하면 개발자는 HTML 요소들을 추가하거나 삭제할 수 있고 이것의 모습을 바꾸거나 이벤트 핸들러에 바인딩할 수 있습니다. 
+> DOM API를 사용하면 렌더링된 DOM 트리에 영향을 주지않고 HTML 요소를 생성하거나 메모리에서 복제하고 조작할 수 있습니다. 개발자는 이것을 통해 풍부한 UX(사용자 경험)를 제공하는 매우 동적인 웹 페이지를 제작할 수 있습니다._
 
 ### CSS Object Model (CSSOM)
 웹 디자인을 하는 의도가 무엇일까요? 최대한 보기 좋은 웹사이트를 만들기 위해서입니다. 우리는 HTML 요소에 몇가지 스타일(<i>style</i>)을 넣어 그것을 실현합니다. 
@@ -129,8 +128,8 @@ CSS 속성의 기본값을 선택하는 동안 속성이 <a href="https://www.w3
 
 이러한 과정을 <b>cascading of styles</b>라고 부르며 이것이 CSS가 <b>Cascading Style Sheet</b>인 이유입니다. 브라우저는 트리구조인 CSSOM을 생성함으로써 CSS cascading 규칙에 따라 스타일을 계산할 수 있습니다.
 
-> 💡 Chrome DevTools Console의 Elements 패널을 통해 HTML 요소의 계산된 스타일을 볼 수 있습니다. (computed style)
-> 왼쪽 패널에서 아무 HTML 요소를 선택한 후 오른쪽 패널의 computed 탭을 클릭하면 됩니다.
+> 💡 <i> Chrome DevTools Console의 Elements 패널을 통해 HTML 요소의 계산된 스타일을 볼 수 있습니다. (computed style)
+> 왼쪽 패널에서 아무 HTML 요소를 선택한 후 오른쪽 패널의 computed 탭을 클릭하면 됩니다. </i>
 
 앞서 보여준 CSS 예제의 CSSOM 트리를 아래의 다이어그램으로 시각화 할 수 있습니다. 간단하게 이해하기 위해, user-agent 스타일은 무시하고 예제의 CSS style에만 집중하겠습니다.
 [이미지 추가]()
@@ -163,8 +162,8 @@ DOM 트리안의 DOM 요소들에 대해 접근할 수 있게 하는 DOM API와 
 
 이것은 개발자가 CSSOM노드의 CSS 프로퍼티에 접근하거나 변경할 수 있게 해줍니다.
 
-> 💡 CSSOM API에 대해 광범위한 스펙트럼을 다루는 [CSS Tricks Article](https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/) 에서 JavaScript로 element의 style을 조작하는 방법을 살펴볼 수 있습니다.    
-> 또한 element의 스타일을 조작하는 더 적절한, 정확한 방법인 JavaScript의 [CSS Typed Object API](https://developers.google.com/web/updates/2018/03/cssom) 를 새롭게 살펴볼 수 있습니다.
+> 💡 <i>CSSOM API에 대해 광범위한 스펙트럼을 다루는 [CSS Tricks Article](https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/) 에서 JavaScript로 element의 style을 조작하는 방법을 살펴볼 수 있습니다.    
+> 또한 element의 스타일을 조작하는 더 적절한, 정확한 방법인 JavaScript의 [CSS Typed Object API](https://developers.google.com/web/updates/2018/03/cssom) 를 새롭게 살펴볼 수 있습니다. </i>
 
 ## Understand Rendering Sequence
 이제 우리는 DOM, CSSOM, Render-Tree에 대해 확실한 개념들을 잡았습니다. 
@@ -184,9 +183,9 @@ Render-Tree가 생성되고 나면 브라우저는 각 독립적인 요소(eleme
 이 레이아웃은 노드의 픽셀 단위의 <b>크기</b>와 화면에 출력될 <b>위치</b>로 구성됩니다.
 이렇게 각 노드의 레이아웃 정보를 계산하는 과정, 다시 말해 노드의 위치와 크기를 계산하는 과정을 <b>layout</b>이라고 부릅니다.
 <b>layout</b> 과정은 <b>reflow</b>, <b>browser reflow</b>라고도 부릅니다.    
-> By Paul Lewis.   
+> _By Paul Lewis.   
 > 레이아웃은 브라우저가 요소의 기하학적 정보(페이지에서 차지하는 크기 및 위치)를 파악하는 장소입니다. 각 요소는 사용한 CSS, 요소의 콘텐츠 또는 상위 요소에 따라 명시적 또는 암시적 크기 지정 정보를 갖게 됩니다. 이 프로세스는 Chrome, Opera, Safari 및 Internet Explorer에서 레이아웃이라고 합니다. Firefox에서는 리플로우(reflow)라고 하지만 실제로는 동일한 프로세스입니다.
-이 과정은 스크롤을 할 때나, 윈도우의 크기를 재조정할때나, DOM 요소들을 조작할 때도 발생할 수 있습니다. 
+이 과정은 스크롤을 할 때나, 윈도우의 크기를 재조정할때나, DOM 요소들을 조작할 때도 발생할 수 있습니다._
 > 
 다음은 <b>layout/reflow</b>를 유발하는 이벤트 목록 입니다.
 
@@ -213,8 +212,8 @@ render-tree의 요소들(혹은 sub-tree)는 서로 겹쳐질 수 있으며, 모
 
 레이어를 생성함으로써 브라우저는 스크롤이나 리사이즈 등과 같은 웹페이지의 생명주기 전반에 걸쳐 효율적인 painting(그리기) 연산을 수행할 수 있습니다.
 또한 레이어를 통해 브라우저는 (<i>z-axis</i>를 따라) 올바른 순서로 요소들을 쌓으면서 그릴 수 있습니다.
-> <i> Creating layers helps the browser efficiently perform painting operations throughout the lifecycle of a web page such as while scrolling or resizing the browser window. Having layers also help the browser correctly draw elements in the stacking order (along the z-axis) as they were intended by the developer. </i>
->
+> _Creating layers helps the browser efficiently perform painting operations throughout the lifecycle of a web page such as while scrolling or resizing the browser window. Having layers also help the browser correctly draw elements in the stacking order (along the z-axis) as they were intended by the developer._
+> 
 이제부터는 레이어들을 결합하여 화면에 출력할 것입니다. 하지만 브라우저는 모든 레이어를 한 번에 그리지는 않습니다.    
 우선 레이어들은 개별적으로 그려집니다.
 
