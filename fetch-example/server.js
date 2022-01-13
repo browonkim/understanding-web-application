@@ -6,11 +6,7 @@ const port = 3000;
 
 app.get('/', function (req, res) {
     console.log(__dirname+'/index.html');
-    res.sendFile(__dirname+ '/index.html', (error) => {
-        if (typeof error !== 'undefined') {
-            console.log(error.message);
-        }
-    })
+    res.sendFile(path.join(__dirname+'/index.html'));
 });
 
 app.listen(port, '0.0.0.0');
