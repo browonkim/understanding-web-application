@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'), (error) => {
+    res.sendFile(__dirname+'/index.html', (error) => {
         if (typeof error !== 'undefined') {
             console.log(error.message);
         }
