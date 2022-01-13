@@ -1,0 +1,23 @@
+body {
+    padding: 0 20px;
+    line-height: 1.4;
+    font-size: 1.3em;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+section.first {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+section.second{
+    background-color: lightblue;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+code {
+    color: firebrick;
+    font-family: Consolas, monospace;
+    word-wrap: break-word;
+}

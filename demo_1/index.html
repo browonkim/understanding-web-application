@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<section class="first">
+    <h1> This is code for #1 </h1>
+    <h2>Using the <code>style</code> property to change the background color</h2>
+    <p>Select a color for this page's background:</p>
+
+    <label for="transparent">
+        <input type="radio"
+               name="colors"
+               value="transparent"
+               id="transparent"
+               checked/>
+        Transparent
+    </label><br/>
+    <label for="BlanchedAlmond">
+        <input type="radio"
+               name="colors"
+               value="BlanchedAlmond"
+               id="BlanchedAlmond"/>
+        BlanchedAlmond
+    </label><br/>
+    <label for="CadetBlue">
+        <input type="radio"
+               name="colors"
+               value="CadetBlue"
+               id="CadetBlue"/>
+        CadetBlue
+    </label><br/>
+    <label for="LavenderBlush">
+        <input type="radio"
+               name="colors"
+               value="LavenderBlush"
+               id="LavenderBlush"/>
+        LavenderBlush
+    </label><br/>
+    <label for="LemonChiffon">
+        <input type="radio"
+               name="colors"
+               value="LemonChiffon"
+               id="LemonChiffon"/>
+        LemonChiffon
+    </label><br/>
+    <p>The rendered HTML looks like this: <br/><code>&lt;body style="section-color:
+        <output></output>
+        "&gt;</code></p>
+</section>
+<section class="second">
+    <h1> This is code for #2 </h1>
+    <h2><code>element.style</code> reads only inline styles</h2>
+
+    <p>The current background color is:
+        <output2></output2>
+    </p>
+
+    <p>The body's background color is set to "lightblue" in the CSS, but the <code>style</code> object returns an empty
+        string when I try to read the background using <code>document.body.style.backgroundColor</code>. This is because
+        <code>element.style</code> reads only inline styles.</p>
+
+</section>
+<script src="script.js"></script>
+</body>
+</html>
