@@ -1,0 +1,17 @@
+body {
+    background: papayawhip;
+    padding: 0 20px;
+    line-height: 1.4;
+    font-size: 1.3em;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+main {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+code, output {
+    color: firebrick;
+    font-family: Consolas, monospace;
+}
